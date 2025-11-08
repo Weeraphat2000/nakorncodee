@@ -1,0 +1,43 @@
+# ---------------------------
+# 🧩 Node & Dependency
+# ---------------------------
+node_modules
+npm-debug.log
+pnpm-debug.log
+yarn-error.log
+.env
+.env.*
+!.env.example
+
+# ---------------------------
+# 🧩 Build artifacts
+# ---------------------------
+dist
+coverage
+*.tsbuildinfo
+
+# ---------------------------
+# 🧩 System / IDE files
+# ---------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ---------------------------
+# 🧩 Docker / Git / CI files
+# ---------------------------
+.git
+.gitignore
+docker-compose.yml
+Dockerfile
+.vscode
+.idea
+
+# ---------------------------
+# 🧩 Test files
+# ---------------------------
+test/
+tests/
+*.spec.ts
+*.test.ts
