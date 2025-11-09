@@ -12,7 +12,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGODB_URI'),
+        uri: config.get<string>('MONGODB_URI', 'mongodb://localhost:27017'),
         dbName: config.get<string>('DB_NAME', 'nakorncode'),
       }),
     }),
