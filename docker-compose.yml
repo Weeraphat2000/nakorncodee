@@ -7,10 +7,12 @@ services:
     environment:
       MONGODB_URI: mongodb://mongo:27017
       DB_NAME: nakorncode
-    depends_on:
-      - mongo
     # env_file:
     #   - .env
+    depends_on:
+      - mongo
+    volumes:
+      - ./:/usr/src/app # ทำ volume เพื่อเวลาแก้โค้ดจะได้ไม่ต้อง build ใหม่ทุกครั้ง
 
   mongo:
     image: mongo
