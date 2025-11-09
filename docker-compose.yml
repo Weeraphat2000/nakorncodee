@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - '3003:3000'
+    command: npm run start:dev
+    environment:
+      MONGODB_URI: mongodb://mongo:27017
+      DB_NAME: nakorncode
+    depends_on:
+      - mongo
+    # env_file:
+    #   - .env
+
+  mongo:
+    image: mongo
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
