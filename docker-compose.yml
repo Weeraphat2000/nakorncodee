@@ -11,6 +11,10 @@ services:
     #   - .env
     depends_on:
       - mongo
+    restart: unless-stopped
+    volumes:
+      - ./:/usr/src/app # คือแมพโฟลเดอร์ปัจจุบันไปที่ /usr/src/app ใน container
+      - /usr/src/app/node_modules # เพื่อป้องกันการแมพโฟลเดอร์ node_modules จากโฮสต์ไปยัง container
 
   mongo:
     image: mongo
