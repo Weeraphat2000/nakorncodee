@@ -1,42 +1,4 @@
-# V2
-name: Build & Push Docker Image to Docker Hub
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  docker:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build Docker image
-        run: |
-          TAG=$(echo $GITHUB_SHA | head -c 7)
-          docker build -f ./Dockerfile \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:$TAG .
-
-      - name: Push Docker image
-        run: |
-          TAG=$(echo $GITHUB_SHA | head -c 7)
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:$TAG
-
-# V1
+# # V2
 # name: Build & Push Docker Image to Docker Hub
 
 # on:
@@ -61,17 +23,55 @@ jobs:
 #           username: ${{ secrets.DOCKERHUB_USERNAME }}
 #           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-#       - name: Extract short commit SHA
-#         id: vars
-#         run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | head -c 7)" >> $GITHUB_ENV
-
 #       - name: Build Docker image
 #         run: |
+#           TAG=$(echo $GITHUB_SHA | head -c 7)
 #           docker build -f ./Dockerfile \
-#           -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest \
-#           -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${COMMIT_SHA} .
+#             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest \
+#             -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:$TAG .
 
 #       - name: Push Docker image
 #         run: |
+#           TAG=$(echo $GITHUB_SHA | head -c 7)
 #           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
-#           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${COMMIT_SHA}
+#           docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:$TAG
+
+# V1
+name: Build & Push Docker Image to Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract short commit SHA
+        id: vars
+        run: echo "COMMIT_SHA=$(echo $GITHUB_SHA | head -c 7)" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: |
+          docker build -f ./Dockerfile \
+          -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest \
+          -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${COMMIT_SHA} .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${COMMIT_SHA}
