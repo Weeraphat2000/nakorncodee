@@ -16,6 +16,12 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('cats')
+  async getCats(): Promise<Cat[]> {
+    console.log('Hello cats 2025 version');
+    return this.catModel.find().exec();
+  }
+
   @Get(':name')
   hello(@Param('name') name: string): string {
     return this.appService.hello(name);

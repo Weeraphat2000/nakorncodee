@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - '3000:3000'
+    command: npm run start:dev
+    environment:
+      MONGODB_URI: mongodb://mongo:27017
+      DB_NAME: nakorncode
+    depends_on:
+      - mongo
+    # volumes:
+    #   - .:/usr/src/app # แมปโฟลเดอร์ปัจจุบันไปยังคอนเทนเนอร์
+    #   - /usr/src/app/node_modules # ป้องกัน node_modules ทับจาก host
+    restart: unless-stopped
+
+  mongo:
+    image: mongo
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
