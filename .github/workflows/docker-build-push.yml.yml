@@ -24,8 +24,13 @@ jobs:
 
       - name: Build Docker image
         run: |
-          TAG=$(echo $GITHUB_SHA | head -c 7) docker build -f ./Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:$TAG .
+          TAG=$(echo $GITHUB_SHA | head -c 7) 
+          docker build -f ./Dockerfile \ 
+          -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest \
+          -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:$TAG .
 
       - name: Push Docker image
         run: |
-          TAG=$(echo $GITHUB_SHA | head -c 7) docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:$TAG
+          TAG=$(echo $GITHUB_SHA | head -c 7) 
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:$TAG
